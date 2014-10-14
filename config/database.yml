@@ -4,7 +4,7 @@ development:
   encoding: unicode
   database: moves_development
   pool: 5
-  username: moves
+  username: 
   password:
 
 test:
@@ -12,7 +12,7 @@ test:
   encoding: unicode
   database: moves_test
   pool: 5
-  username: moves
+  username: 
   password:
 
 production:
@@ -20,5 +20,5 @@ production:
   encoding: unicode
   database: moves_production
   pool: 5
-  username: moves
+  username: 
   password:
