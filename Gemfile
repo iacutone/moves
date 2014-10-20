@@ -14,7 +14,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'google-analytics-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'moves', :path => File.join('..', 'moves-1')
+gem 'moves'
 gem 'omniauth'
 gem 'omniauth-moves'
 gem 'pg'
