@@ -1,33 +1,27 @@
-= form_tag user_path(current_user), method: :get do
-  = label_tag 'Time'
-  = select_tag :time, options_for_select(Activity::TIMELINE), include_blank: true
-  = submit_tag 'Submit'
-
+.row
+  .col-md-3.col-md-offset-3
+    = form_tag user_path(current_user), method: :get do
+      = label_tag 'Time'
+      = select_tag :time, options_for_select(User::TIMELINE), include_blank: true
+      = submit_tag 'Submit'
+  
 - if params[:time].present?
-  = @moves.daily_summary.first['summary'].last['steps']
-  #container
+  %svg
+  
 :javascript
-  // var svg = d3.select('body')
-  //               .append('svg')
-  //               .attr('width', 100)
-  //               .attr('height', 100);
-                
-  // var circles = svg.selectAll('svg')
-  //                  .data(5)
-  //                  .enter()
-  //                  .append('circle');
-                   
-  // circles.attr('cx', function(d, i){
-  //     return i;
-  //   })
-  //   .attr('cy',function(d, i){
-  //     return i;
-  //   })
-  //   .attr('r', function(d){
-  //     return d;
-  //   });
-  d3.select('body').selectAll('#container').data(1).enter().append('p').text('dfiujnidj')
-                
+  var time = '#{params[:time]}';
+  var dataSet = ["#{@moves}"];
+  var svg = d3.select("svg").attr('height', 5000).attr('width', 5000);
+  var circle = svg.selectAll("circle")
+    .data(dataSet, function(d) { return d; });
+    
+  circle.enter().append("circle")
+      .attr("cy", 250)
+      .attr("cx", function(d, i) { return i * 250 + 300; })
+      .attr("r", function(d, i) { return d / 50 })
+      .style("fill", "steelblue");
+
+  circle.exit().remove();
   
     
   

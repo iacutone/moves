@@ -2,18 +2,12 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :activity]
   respond_to :html, :js
 
-  def index
-    @users = User.all
-    respond_with(@users)
-  end
-
   def show
     if params[:time].present?
-      @moves = MovesApi.new.moves(@user.access_token)
-      # @moves = @moves.find_activity.walking_activity
+      @moves = MovesApi.new(@user.access_token, params[:time])
+      @moves = @moves.find_activity
     end
     respond_with(@user)
-    # @activity = ActivityCreator.new(moves.daily_activities)
   end
 
   def new

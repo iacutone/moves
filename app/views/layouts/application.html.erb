@@ -4,17 +4,20 @@
   <title>Moves</title>
   <%= stylesheet_link_tag    "application", media: "all" %>
   <%= javascript_include_tag "application" %>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.8.0/react.js"></script>
-  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <%= csrf_meta_tags %>
-  <% if signed_in? %>
-    <%= link_to "Sign Out", signout_path, method: :delete %>
-  <% end %>
+  <nav class="navbar navbar-default" role="navigation">
+    <a class="navbar-brand" href="#">Moves Visualisation</a>
+    <% if signed_in? %>
+      <%= link_to "Sign Out", signout_path, method: :delete, :class => 'pull-right' %></li>
+    <% end %>
+  </nav>
 </head>
 <body>
+<div class="container-fluid">
+  <%= yield %>
+</div>
 
-<%= yield %>
+<%= debug(params) if Rails.env.development? %>
 
 </body>
 </html>
