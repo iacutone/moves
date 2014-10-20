@@ -17,10 +17,8 @@ gem 'moves'
 gem 'omniauth'
 gem 'omniauth-moves'
 gem 'pg'
-gem 'rails_12factor'
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'unicorn'
 gem 'whenever'
 
 group :development do
@@ -50,6 +48,11 @@ group :test do
   gem 'launchy'
   gem 'shoulda-matchers'
   gem 'timecop'
+end
+
+group :production do
+  gem 'rails_12factor'
+  gem 'unicorn'
 end
 
 group :doc do
