@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   def signed_in?
     current_user.present?
   end
+  helper_method :signed_in?
   
   def show_page_redirect
     if signed_in?
