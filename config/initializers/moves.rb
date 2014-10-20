@@ -1,3 +1,3 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :moves, ENV['MOVES_KEY'], ENV['MOVES_SECRET']
+  provider :moves, Moves.moves_key , Moves.moves_secret
 end
