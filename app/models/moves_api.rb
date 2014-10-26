@@ -10,9 +10,9 @@ class MovesApi
   def find_activity
     if timeline == 'day'
       steps = []
-      dates = []
+      # dates = []
       daily_summary.each do |outer_hash|
-        dates << date(outer_hash['date'])
+        # dates << date(outer_hash['date'])
         outer_hash['summary'].each do |inner_hash|
           steps << inner_hash['steps']
         end
@@ -21,9 +21,11 @@ class MovesApi
     elsif timeline == 'week'
       steps = []
       weekly_summary.each do |outer_hash|
-        outer_hash['summary'].each do |inner_hash|
-          if inner_hash['group'] == 'walking'
-            steps << inner_hash['steps']
+        if outer_hash['summary'].present?
+          outer_hash['summary'].each do |inner_hash|
+            if inner_hash['group'] == 'walking'
+              steps << inner_hash['steps']
+            end
           end
         end
       end
@@ -31,9 +33,11 @@ class MovesApi
     else
       steps = []
       monthly_summary.each do |outer_hash|
-        outer_hash['summary'].each do |inner_hash|
-          if inner_hash['group'] == 'walking'
-            steps << inner_hash['steps']
+        if outer_hash['summary'].present?
+          outer_hash['summary'].each do |inner_hash|
+            if inner_hash['group'] == 'walking'
+              steps << inner_hash['steps']
+            end
           end
         end
       end
@@ -73,6 +77,6 @@ class MovesApi
   end
   
   def stringify_array(steps)
-    steps.join(",").gsub(',', '","')
+    steps.compact.join(",").gsub(',', '","')
   end
 end
