@@ -7,14 +7,14 @@ class MovesApi
     @timeline = timeline
   end
   
-  def find_activity
+  def find_steps
     if timeline == 'day'
       steps = []
-      # dates = []
       daily_summary.each do |outer_hash|
-        # dates << date(outer_hash['date'])
-        outer_hash['summary'].each do |inner_hash|
-          steps << inner_hash['steps']
+        if outer_hash['summary'].present?
+          outer_hash['summary'].each do |inner_hash|
+            steps << inner_hash['steps']
+          end
         end
       end
       stringify_array(steps)
@@ -45,6 +45,28 @@ class MovesApi
     end
   end
   
+  def find_times
+    if timeline == 'day'
+      dates = []
+      daily_summary.each do |outer_hash|
+        dates << outer_hash['date']
+      end
+    stringify_date(dates)
+    elsif timeline == 'week'
+      dates = []
+      weekly_summary.each do |outer_hash|
+        dates << outer_hash['date']
+      end
+    stringify_date(dates)
+    else
+      dates = []
+      monthly_summary.each do |outer_hash|
+        dates << outer_hash['date']
+      end
+    stringify_date(dates)
+    end
+  end
+  
   def daily_summary
     moves.daily_summary
   end
@@ -72,8 +94,13 @@ class MovesApi
     Date.today.at_beginning_of_month.strftime(format)
   end
   
-  def date(date)
-    Date.parse(date)
+  def stringify_date(dates)
+    format = "%m-%d-%Y"
+    formatted_date = []
+    dates.each do |date|
+      formatted_date << Date.parse(date).strftime(format)
+    end
+    stringify_array(formatted_date)
   end
   
   def stringify_array(steps)

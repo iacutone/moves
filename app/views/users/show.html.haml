@@ -12,27 +12,39 @@
   
 :javascript
   var time    = '#{params[:time]}';
-  var dataSet = ['#{@steps}'];
+  var dataSet = ["#{@steps}"];
+  var timeSet = ["#{@times}"];
   var height  = dataSet.length * 150;
   var width   = dataSet.length * 400;
   var svg     = d3.select('svg').attr('height', height).attr('width', width);
-  var circle  = svg.selectAll('circle').data(dataSet, function(d) { return d; });
+  var circle  = svg.selectAll('circle').data(dataSet);
     
   circle.enter().append('circle')
       .attr('cy', 100)
       .attr('cx', function(d, i) { return i * 250 + 300; })
       .attr('r', function(d, i) { return d / 50 })
-      .style('fill', 'steelblue');
-
+      .attr("id", "circle")
+      .style('fill', 'steelblue')
+      .style('opacity', .5)
+      .on('mouseover', MouseoverAttribtues)
+      .on('mouseout', MouseoutAttribtues);
+      
+  circle.enter().append('text')
+    .attr("x", function(d, i) { return i * 250 + 300; })
+    .attr("y", 100)
+    .attr("dy", ".35em")
+    .text(function(d) { return d; });
+  
   circle.exit().remove();
+  
+  $('#circle').each(function(i, circle){
+    timeSet.forEach(function(time){
+      $(circle).append("div" + time + "/div");
+    });
+  });
   
   $(document).ready(function(){
     $('select#time').on('change', function(){
       $('#get_time').submit();
     });
   });
-  
-    
-  
-
-  
