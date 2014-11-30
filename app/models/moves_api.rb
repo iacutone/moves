@@ -7,75 +7,32 @@ class MovesApi
     @timeline = timeline
   end
   
-  def find_steps
-    if timeline == 'day'
-      steps = []
-      daily_summary.each do |outer_hash|
-        if outer_hash['summary'].present?
-          outer_hash['summary'].each do |inner_hash|
-            steps << inner_hash['steps']
-          end
+  def steps
+  @hash = {}
+    timeline.each do |outer_hash|
+      if outer_hash['date'].present? && outer_hash['summary'].present?
+        @hash[:date] = outer_hash['date']
+        outer_hash['summary'].each do |inner_hash|
+          @hash[:activity] = inner_hash['activity']
+          @hash[:duration] = inner_hash['duration']
+          @hash[:distance] = inner_hash['distance']
+          @hash[:steps]    = inner_hash['setps']
+          @hash[:calories] = inner_hash['calories']
         end
       end
-      stringify_array(steps)
-    elsif timeline == 'week'
-      steps = []
-      weekly_summary.each do |outer_hash|
-        if outer_hash['summary'].present?
-          outer_hash['summary'].each do |inner_hash|
-            if inner_hash['group'] == 'walking'
-              steps << inner_hash['steps']
-            end
-          end
-        end
-      end
-      stringify_array(steps)
-    else
-      steps = []
-      monthly_summary.each do |outer_hash|
-        if outer_hash['summary'].present?
-          outer_hash['summary'].each do |inner_hash|
-            if inner_hash['group'] == 'walking'
-              steps << inner_hash['steps']
-            end
-          end
-        end
-      end
-      stringify_array(steps)
     end
+    @hash
   end
   
-  def find_times
-    if timeline == 'day'
-      dates = []
-      daily_summary.each do |outer_hash|
-        dates << outer_hash['date']
-      end
-    stringify_date(dates)
-    elsif timeline == 'week'
-      dates = []
-      weekly_summary.each do |outer_hash|
-        dates << outer_hash['date']
-      end
-    stringify_date(dates)
-    else
-      dates = []
-      monthly_summary.each do |outer_hash|
-        dates << outer_hash['date']
-      end
-    stringify_date(dates)
-    end
-  end
-  
-  def daily_summary
+  def day
     moves.daily_summary
   end
   
-  def weekly_summary
+  def week
     moves.daily_summary(:from => first_of_week, :to => today)
   end
   
-  def monthly_summary
+  def month
     moves.daily_summary(:from => first_of_month, :to => today)
   end
   

@@ -5,8 +5,7 @@ class UsersController < ApplicationController
   def show
     if params[:time].present?
       @moves = MovesApi.new(@user.access_token, params[:time])
-      @steps = @moves.find_steps
-      @times = @moves.find_times
+      @steps = @moves.steps
     end
     respond_with(@user)
   end
